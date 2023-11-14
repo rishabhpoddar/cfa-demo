@@ -1,8 +1,5 @@
 import ThirdPartyPasswordless, {
     Google,
-    Github,
-    Apple,
-    Twitter,
 } from "supertokens-auth-react/recipe/thirdpartypasswordless";
 import { ThirdPartyPasswordlessPreBuiltUI } from "supertokens-auth-react/recipe/thirdpartypasswordless/prebuiltui";
 import Session from "supertokens-auth-react/recipe/session";
