@@ -6,8 +6,8 @@ function getBackendConfig() {
     return {
         framework: "awsLambda",
         supertokens: {
-            connectionURI: "https://st-dev-90dcf1e0-77bc-11ee-bb39-f5e7264c199f.aws.supertokens.io/appid-cfa-demo",
-            apiKey: "iSwKFzPmgGRReDnYzGtUY5PLmE",
+            connectionURI: "TODO..",
+            apiKey: "TODO..",
         },
         appInfo: {
             appName: "cfa-demo",
