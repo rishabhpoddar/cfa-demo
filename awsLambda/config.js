@@ -1,12 +1,13 @@
 let ThirdPartyPasswordless = require('supertokens-node/recipe/thirdpartypasswordless');
 let Session = require('supertokens-node/recipe/session')
+let SuperTokens = require("supertokens-node");
 
 function getBackendConfig() {
     return {
         framework: "awsLambda",
         supertokens: {
-            connectionURI: "TODO",
-            apiKey: "TODO",
+            connectionURI: "https://st-dev-90dcf1e0-77bc-11ee-bb39-f5e7264c199f.aws.supertokens.io/appid-cfa-demo",
+            apiKey: "iSwKFzPmgGRReDnYzGtUY5PLmE",
         },
         appInfo: {
             appName: "cfa-demo",
@@ -30,7 +31,46 @@ function getBackendConfig() {
                     }
                 }],
             }),
-            Session.init(),
+            Session.init({
+                override: {
+                    apis: (original) => {
+                        return {
+                            ...original,
+                            refreshPOST: async function (input) {
+                                let session = await original.refreshPOST(input);
+                                if (session.getAccessTokenPayload().preventRefresh) {
+                                    await session.revokeSession();
+                                    input.options.res.setStatusCode(401)
+                                }
+                                return session;
+                            }
+                        }
+                    },
+                    functions: (original) => {
+                        return {
+                            ...original,
+                            createNewSession: async (input) => {
+                                input.accessTokenPayload = {
+                                    ...input.accessTokenPayload,
+                                    preventRefresh: false
+                                }
+                                let req = SuperTokens.getRequestFromUserContext(input.userContext);
+                                if (req !== undefined) {
+                                    let userAgent = req.original.headers['User-Agent']
+                                    if (userAgent !== undefined && userAgent.includes("Mozilla")) {
+                                        // this is from a browser..
+                                        input.accessTokenPayload = {
+                                            ...input.accessTokenPayload,
+                                            preventRefresh: true
+                                        }
+                                    }
+                                }
+                                return original.createNewSession(input);
+                            }
+                        }
+                    }
+                }
+            })
         ],
         isInServerlessEnv: true,
     }

@@ -2,8 +2,12 @@ import axios from "axios";
 
 export default function CallAPIView() {
     async function callAPIClicked() {
-        let response = await axios.get("http://localhost:8000/");
-        window.alert("Session Information:\n" + JSON.stringify(response.data, null, 2));
+        try {
+            let response = await axios.get("http://localhost:8000/");
+            window.alert("Session Information:\n" + JSON.stringify(response.data, null, 2));
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     return (
