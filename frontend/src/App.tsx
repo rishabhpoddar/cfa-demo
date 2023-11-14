@@ -9,6 +9,7 @@ import { PreBuiltUIList, SuperTokensConfig } from "./config";
 import { ThirdpartyPasswordlessComponentsOverrideProvider } from "supertokens-auth-react/recipe/thirdpartypasswordless";
 import Session from "supertokens-auth-react/recipe/session";
 import ThirdPartyPasswordless from "supertokens-auth-react/recipe/thirdpartypasswordless";
+import MobileWebSession from "./MobileWebSession";
 
 
 SuperTokens.init(SuperTokensConfig);
@@ -32,12 +33,15 @@ function App() {
                                 <Route
                                     path="/"
                                     element={
-                                        /* This protects the "/" route so that it shows
-                                    <Home /> only if the user is logged in.
-                                    Else it redirects the user to "/auth" */
                                         <SessionGuardWithAutoRedirectionToGoogle>
                                             <Home />
                                         </SessionGuardWithAutoRedirectionToGoogle>
+                                    }
+                                />
+                                <Route
+                                    path="/mobilewebsession"
+                                    element={
+                                        <MobileWebSession />
                                     }
                                 />
                             </Routes>
