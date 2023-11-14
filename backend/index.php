@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$jwks_url = 'https://hazk4n47se.execute-api.ap-south-1.amazonaws.com/dev/auth/jwt/jwks.json';
+$jwks_url = 'https://7l37va4thk.execute-api.ap-south-1.amazonaws.com/dev/auth/jwt/jwks.json';
 
 $jwt_token = null;
 $headers = apache_request_headers();
@@ -40,12 +40,6 @@ if ($jwt_token) {
         $decoded = JWT::decode($jwt_token, JWK::parseKeySet($jwks), ['RS256']);
 
         // If the token is verified, we check if the email verification claim is set to true
-
-        if(!$decoded->{'st-ev'}->v) {
-            http_response_code(403);
-            echo json_encode(array("message" => "Access denied. Email verification is required"));
-            exit();
-        }
 
         echo "Hello, " . $decoded->sub . "!"; // 'sub' claim contains the user ID
     } catch (Exception $e) {

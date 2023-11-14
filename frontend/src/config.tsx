@@ -1,16 +1,14 @@
-import ThirdPartyEmailPassword, {
+import ThirdPartyPasswordless, {
     Google,
     Github,
     Apple,
     Twitter,
-} from "supertokens-auth-react/recipe/thirdpartyemailpassword";
-import { ThirdPartyEmailPasswordPreBuiltUI } from "supertokens-auth-react/recipe/thirdpartyemailpassword/prebuiltui";
+} from "supertokens-auth-react/recipe/thirdpartypasswordless";
+import { ThirdPartyPasswordlessPreBuiltUI } from "supertokens-auth-react/recipe/thirdpartypasswordless/prebuiltui";
 import Session from "supertokens-auth-react/recipe/session";
-import EmailVerification from "supertokens-auth-react/recipe/emailverification"
-import { EmailVerificationPreBuiltUI } from "supertokens-auth-react/recipe/emailverification/prebuiltui";
 
 export function getApiDomain() {
-    return "https://hazk4n47se.execute-api.ap-south-1.amazonaws.com"
+    return "https://7l37va4thk.execute-api.ap-south-1.amazonaws.com"
 }
 
 export function getWebsiteDomain() {
@@ -29,13 +27,11 @@ export const SuperTokensConfig = {
     // recipeList contains all the modules that you want to
     // use from SuperTokens. See the full list here: https://supertokens.com/docs/guides
     recipeList: [
-        ThirdPartyEmailPassword.init({
-            signInAndUpFeature: {
+        ThirdPartyPasswordless.init({
+            signInUpFeature: {
                 providers: [Github.init(), Google.init(), Apple.init(), Twitter.init()],
             },
-        }),
-        EmailVerification.init({
-            mode: "REQUIRED"
+            contactMethod: "EMAIL_OR_PHONE",
         }),
         Session.init({
             tokenTransferMethod: "header",
@@ -57,10 +53,10 @@ export const SuperTokensConfig = {
 };
 
 export const recipeDetails = {
-    docsLink: "https://supertokens.com/docs/thirdpartyemailpassword/introduction",
+    docsLink: "https://supertokens.com/docs/thirdpartypasswordless/introduction",
 };
 
-export const PreBuiltUIList = [ThirdPartyEmailPasswordPreBuiltUI, EmailVerificationPreBuiltUI];
+export const PreBuiltUIList = [ThirdPartyPasswordlessPreBuiltUI];
 
 export const ComponentWrapper = (props: { children: JSX.Element }): JSX.Element => {
     return props.children;
