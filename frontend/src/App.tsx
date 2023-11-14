@@ -4,14 +4,21 @@ import { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react/ui
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./Home";
-import { PreBuiltUIList, SuperTokensConfig, ComponentWrapper } from "./config";
+import { PreBuiltUIList, SuperTokensConfig } from "./config";
+import { ThirdpartyPasswordlessComponentsOverrideProvider } from "supertokens-auth-react/recipe/thirdpartypasswordless";
+
 
 SuperTokens.init(SuperTokensConfig);
 
 function App() {
     return (
         <SuperTokensWrapper>
-            <ComponentWrapper>
+            <ThirdpartyPasswordlessComponentsOverrideProvider
+                components={{
+                    ThirdPartySignInAndUpProvidersForm_Override: ({ DefaultComponent, ...props }) => {
+                        return null;
+                    }
+                }}>
                 <div className="App app-container">
                     <Router>
                         <div className="fill">
@@ -34,7 +41,7 @@ function App() {
                         </div>
                     </Router>
                 </div>
-            </ComponentWrapper>
+            </ThirdpartyPasswordlessComponentsOverrideProvider>
         </SuperTokensWrapper>
     );
 }

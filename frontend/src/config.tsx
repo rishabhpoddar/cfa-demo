@@ -29,7 +29,10 @@ export const SuperTokensConfig = {
     recipeList: [
         ThirdPartyPasswordless.init({
             signInUpFeature: {
-                providers: [Github.init(), Google.init(), Apple.init(), Twitter.init()],
+                thirdPartyProviderAndEmailOrPhoneFormStyle: `[data-supertokens~=thirdPartyPasswordlessDivider] {
+                    display: none;
+                }`,
+                providers: [Google.init()],
             },
             contactMethod: "EMAIL_OR_PHONE",
         }),
@@ -57,7 +60,3 @@ export const recipeDetails = {
 };
 
 export const PreBuiltUIList = [ThirdPartyPasswordlessPreBuiltUI];
-
-export const ComponentWrapper = (props: { children: JSX.Element }): JSX.Element => {
-    return props.children;
-};
